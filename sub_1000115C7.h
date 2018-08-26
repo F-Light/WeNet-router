@@ -1,7 +1,8 @@
-
+ aAbcdefghijklmn db 'abcdefghijklmnopqrstuvwxyz1234567890ZYXWVUTSRQPONMLKJIHGFEDCBA:_',0
 
 __int64 __fastcall sub_1000115C7(__int64 a1, int a2, __int64 a3, signed int a4)
-{                                                                            
+{                  
+
   signed int v4; // ebx                                                      
   __int64 v5; // r13                                                         
   __int64 v6; // r12                                                         
@@ -100,6 +101,7 @@ __int64 __fastcall sub_1000115C7(__int64 a1, int a2, __int64 a3, signed int a4)
         }                                                                    
       }                                                                      
     }                                                                        
-  }                                                                          
+  }                        
+                                                  
   return (unsigned int)v6;                                                   
 }                                                                            
