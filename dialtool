@@ -1,0 +1,85 @@
+#!/bin/sh
+[ "$(ps 2>&1 | grep 'dialtool' | grep -v -c 'grep' | awk -F " " '{print $1}')" -ge 3 ] && {
+	echo "dialtool is running." && exit 0	 
+}
+ifname_lan=lan
+ifname_wan=wan
+mac_wan=macwan
+mac456=123456
+#mark=`uci get tconfig.@tset[0].fuzhuenabled`
+if grep -q "fuzhuenabled" /etc/config/tconfig ; then
+	mark=`uci get tconfig.@tset[0].fuzhuenabled`
+else
+	mark=0
+fi
+mark=$1
+ifname_back="/etc/ifname_back"
+if [ -f "$ifname_back" ]; then
+	ifname_lan=$(sed -n '1p' /etc/ifname_back)
+	ifname_wan=$(sed -n '2p' /etc/ifname_back)
+else
+	if [ $mark -eq 1 ]; then
+	
+	ifname_lan=$(uci get network.lan.ifname)
+	ifname_wan=$(uci get network.wan.ifname)
+
+	uci add wireless wifi-iface
+	mac_wan=$(ifconfig $ifname_wan | grep "HWaddr" | awk '{print $5}')
+	mac4=$(echo "$mac_wan" | awk -F ":" '{print $4}')
+	mac5=$(echo "$mac_wan" | awk -F ":" '{print $5}')
+	mac6=$(echo "$mac_wan" | awk -F ":" '{print $6}')
+
+	#_orig_ifname_lan=$(uci get network.lan._orig_ifname)
+	#_orig_ifname_wan=$(uci get network.wan._orig_ifname)
+	echo "$ifname_lan" > /etc/ifname_back
+	echo  "$ifname_wan" >> /etc/ifname_back
+
+	echo  "$mac_wan" >> /etc/ifname_back
+	echo  "$mac4$mac5$mac6" >> /etc/ifname_back
+	mac456=$(sed -n '4p' /etc/ifname_back)
+
+	fi
+fi
+mac456=$(sed -n '4p' /etc/ifname_back)
+echo "ifname_lan = $ifname_lan"
+echo  "ifname_wan = $ifname_wan"
+
+if [ $mark -eq 1 ]; then
+	uci set network.lan.ifname="$ifname_lan $ifname_wan"
+	uci set network.wan.ifname="empty"
+	uci set network.wan6.ifname="empty"
+	sh /etc/mac $ifname_wan
+	uci set dhcp.lan.ignore="1"
+	#sh /usr/share/common/checkdial &
+
+	uci set wireless.@wifi-iface[1].device="radio0"
+	uci set wireless.@wifi-iface[1].network="wan"
+	uci set wireless.@wifi-iface[1].mode="ap"
+	#uci set wireless.@wifi-iface[1].ssid="____Dial waiting_$mac456"
+	uci set wireless.@wifi-iface[1].ssid="___1绛夊緟鎷ㄥ彿_$mac456"
+	uci set wireless.@wifi-iface[1].encryption="psk2"
+	uci set wireless.@wifi-iface[1].key="diybox$mac456"
+	sh /usr/share/common/checkdial &
+
+else
+	uci set network.lan.ifname="$ifname_lan"
+	uci set network.wan.ifname="$ifname_wan"
+	uci set network.wan6.ifname="$ifname_wan"
+	sh /etc/mac
+	uci set dhcp.lan.ignore="0"
+
+
+	uci set wireless.@wifi-iface[1].device="radio0"
+	uci set wireless.@wifi-iface[1].network="wan"
+	uci set wireless.@wifi-iface[1].mode="ap"
+	#uci set wireless.@wifi-iface[1].ssid="____Dial off_$mac456"
+	uci set wireless.@wifi-iface[1].ssid="___0宸ュ叿宸插叧闂璤$mac456"
+	uci set wireless.@wifi-iface[1].encryption="psk2"
+	uci set wireless.@wifi-iface[1].key="diybox$mac456"
+
+fi
+
+uci commit
+/etc/init.d/odhcpd restart 1>/dev/null 2>&1
+/etc/init.d/network restart 1>/dev/null 2>&1
+/etc/init.d/firewall restart 1>/dev/null 2>&1
