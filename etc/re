@@ -1,0 +1,10 @@
+#!/bin/sh
+wan_mac_origin=$(cat /www/mac_save_old | awk '{print $1}')
+echo "$wan_mac_origin"
+uci set network.wan.macaddr="$wan_mac_origin"
+uci set network.@device[1].macaddr="$wan_mac_origin"
+uci commit
+sleep 1
+/etc/init.d/odhcpd restart 1>/dev/null 2>&1
+/etc/init.d/network restart 1>/dev/null 2>&1
+/etc/init.d/firewall restart 1>/dev/null 2>&1
