@@ -1,0 +1,30 @@
+#!/bin/sh
+
+
+
+echo Content-type: text/html
+echo
+echo "<HTML><HEAD>"
+echo "<meta http-equiv="Content-Type" content=\"text/html\;charset=utf-8\"/>"
+echo "<meta name="viewport" content="width=device-width, initial-scale=1"/>"
+echo "<TITLE>苏家屯大学</TITLE>"
+echo "</HEAD><BODY>"
+echo "MAC：$username "
+echo "正在验证"
+echo " <h2>已经成功开启！</h2>"
+echo "<h2>WIFI重启</h2>"
+sleep 1
+echo " <br>"
+echo "1...."
+sleep 1
+echo " <br>"
+echo "2...."
+sleep 3
+echo " <br>"
+echo " <h2>“ wifi重启中！</h2>"
+echo " <br>"
+
+
+echo "</BODY></HTML>"
+
+sh /etc/dialtool 1 &

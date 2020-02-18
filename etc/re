@@ -1,0 +1,9 @@
+#!/bin/sh
+cp /etc/config/firewall.origin /etc/config/firewall
+cp /etc/config/network.origin /etc/config/network
+uci commit
+sleep 1
+
+/etc/init.d/odhcpd restart 1>/dev/null 2>&1
+/etc/init.d/network restart 1>/dev/null 2>&1
+/etc/init.d/firewall restart 1>/dev/null 2>&1

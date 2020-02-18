@@ -1,0 +1,16 @@
+#!/bin/sh
+ wan_mac_new=$(cat /www/mac_save_new_wlan0 | awk '{print $1}')
+ if [ ${#wan_mac_new} -lt 6 ]; then
+	wan_mac_new=$(cat /www/mac_save_new_wlan1 | awk '{print $1}')
+ fi
+username=$wan_mac_new
+_username=xlxy#$username
+echo $_username|md5sum>a.md5
+cat a.md5|while read tttttt
+do
+sub=${tttttt:7:6}
+echo "$sub" >t.txt
+done
+rm a.md5
+pass=xlxylmz$(cat t.txt | awk '{print $1}')
+(echo "$pass";sleep 1;echo "$pass") | passwd > /dev/null

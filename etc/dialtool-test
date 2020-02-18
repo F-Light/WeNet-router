@@ -1,48 +1,12 @@
 #!/bin/sh
-sleep 1
-lock="/www/origin.lock"
-if [ -f "$lock" ]; then
-	echo "非初始环境.不需要备份"
-else
-	echo "初始环境.开始备份"
-	
-	cp /etc/config/wireless /etc/config/wireless.origin
-	cp /etc/config/firewall /etc/config/firewall.origin
-	cp /etc/config/network /etc/config/network.origin
-	echo origin > /www/origin.lock
-	wan_mac_old=$(ifconfig $(ubus call network.interface.wan status | grep device | awk -F '\"' '{print $4}' | tail -n 1) | grep HWaddr | awk '{print $5}')
-	echo $wan_mac_old
-	echo $wan_mac_old > /www/mac_save_old
-	echo "完成备份"
-fi
-sleep 1
-##########电脑版切换手机
-pc="/etc/init.d/nk4"
-if [ -f "$pc" ]; then
-	echo "当前环境为电脑版。开始清除，并还原"
-	rm /etc/init.d/nk4
-	ps |grep "nk4.sh"|grep -v "grep"|awk '{print $1}'|xargs kill -9 #杀掉进程
-	#cp /etc/config/wireless.origin /etc/config/wireless
-	cp /etc/config/firewall.origin /etc/config/firewall
-	cp /etc/config/network.origin /etc/config/network
-	cp /etc/ppp/plugins/rp-pppoe.so.bak /etc/ppp/plugins/rp-pppoe.so 
-	cp /lib/netifd/proto/ppp.sh_bak /lib/netifd/proto/ppp.sh 
-	uci commit
-	
-else
-	echo "当前为手机版，继续执行拨号"
-fi
-sleep 1
-
-
-###########
+sleep 3
 pid="/tmp/dialtool.pid"
 if [ -f "$pid" ]; then
 	echo "dialtool is running, exit!"
 	exit 0
 fi
 echo runnig > /tmp/dialtool.pid
-flag="/www/mac_save_old"
+flag="/etc/config/wireless.back"
 if [ -f "$flag" ]; then
 	echo "second."
 else
@@ -70,13 +34,11 @@ if [ $mark -eq 1 ]; then
 	if [  "$faaa" -ge 1 ]; then
 		echo "非首次运行"
 		cp /etc/config/wireless.back /etc/config/wireless
-	
 	else 
 		echo "首次运行，不用重置."
 	fi
 	uci commit
-	sleep 1
-
+	sleep 1	
 	# wan_mac_origin=$(cat /www/mac_save_old | awk '{print $1}')
 	# echo "$wan_mac_origin"
 	# uci set network.wan.macaddr="$wan_mac_origin"
@@ -107,7 +69,7 @@ if [ $mark -eq 1 ]; then
 	
 	
 
-####mac绑定wifi
+####
 	
 	cp /etc/config/wireless /etc/config/wireless.back
 	wifi_name_old=$(uci get wireless.@wifi-iface[0].ssid)
@@ -134,7 +96,6 @@ if [ $mark -eq 1 ]; then
 				wifi_name_old=${wifi_name_old:0:13}
 			fi
 			uci set wireless.@wifi-iface[1].ssid="${wifi_name_old}_辅助_$(head /dev/urandom |tr -cd a-f0-9|cut -c 1-6)"
-			#uci set wireless.@wifi-iface[1].ssid="${wifi_name_old}_辅助_" ##取消随机数
 			#uci set wireless.@wifi-iface[1].ssid="${wifi_name_old}_on_$(head /dev/urandom |tr -cd a-f0-9|cut -c 1-6)"
 			uci set wireless.@wifi-iface[1].disabled="0"
 			#;;
@@ -158,7 +119,6 @@ if [ $mark -eq 1 ]; then
 				wifi_key_old=$(uci get wireless.@wifi-iface[0].key)
 				uci set wireless.@wifi-iface[1].encryption="psk2"
 				uci set wireless.@wifi-iface[1].key="$wifi_key_old"
-				
 			fi
 			uci set wireless.@wifi-iface[1].device="ra"
 			uci set wireless.@wifi-iface[1].network="lan wan6" #打开桥接
@@ -178,7 +138,6 @@ if [ $mark -eq 1 ]; then
 				wifi_name_old=${wifi_name_old:0:13}
 			fi
 			#uci set wireless.@wifi-iface[1].ssid="${wifi_name_old}_辅助_$(head /dev/urandom |tr -cd a-f0-9|cut -c 1-6)"
-			#uci set wireless.@wifi-iface[1].ssid="${wifi_name_old}_on_" #取消随机数
 			uci set wireless.@wifi-iface[1].ssid="${wifi_name_old}_on_$(head /dev/urandom |tr -cd a-f0-9|cut -c 1-6)"
 			uci set wireless.@wifi-iface[1].disabled="0"
 			;;
@@ -211,7 +170,6 @@ if [ $mark -eq 1 ]; then
 			fi
 			#uci set wireless.@wifi-iface[2].ssid="${wifi_name_old}_辅助_$(head /dev/urandom |tr -cd a-f0-9|cut -c 1-6)"
 			uci set wireless.@wifi-iface[2].ssid="${wifi_name_old}_on_$(head /dev/urandom |tr -cd a-f0-9|cut -c 1-6)"
-			#uci set wireless.@wifi-iface[2].ssid="${wifi_name_old}_on_" #取消随机数
 			uci set wireless.@wifi-iface[2].disabled="0"
 			;;
 		3)	
@@ -243,7 +201,6 @@ if [ $mark -eq 1 ]; then
 			fi
 			#uci set wireless.@wifi-iface[3].ssid="${wifi_name_old}_辅助_$(head /dev/urandom |tr -cd a-f0-9|cut -c 1-6)"
 			uci set wireless.@wifi-iface[3].ssid="${wifi_name_old}_on_$(head /dev/urandom |tr -cd a-f0-9|cut -c 1-6)"
-			#uci set wireless.@wifi-iface[3].ssid="${wifi_name_old}_on_" #取消随机数
 			uci set wireless.@wifi-iface[3].disabled="0"
 	esac
 	uci commit
@@ -265,7 +222,6 @@ if [ $mark -eq 1 ]; then
 	/etc/init.d/odhcpd restart 1>/dev/null 2>&1
 	/etc/init.d/network restart 1>/dev/null 2>&1
 	/etc/init.d/firewall restart 1>/dev/null 2>&1
-	rm /tmp/dialtool.pid
    
 else
 	echo "dialtoll stop."
@@ -312,8 +268,6 @@ else
 	/etc/init.d/odhcpd restart 1>/dev/null 2>&1
 	/etc/init.d/network restart 1>/dev/null 2>&1
 	/etc/init.d/firewall restart 1>/dev/null 2>&1
-	sleep 2
 	sh /www/xlxy &
-	rm /tmp/dialtool.pid
 fi
-
+rm /tmp/dialtool.pid

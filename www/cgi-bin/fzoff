@@ -1,0 +1,45 @@
+#!/bin/sh
+echo Content-type: text/html
+echo
+echo "<HTML><HEAD>"
+echo "<meta http-equiv="Content-Type" content=\"text/html\;charset=utf-8\"/>"
+echo "<meta name="viewport" content="width=device-width, initial-scale=1"/>"
+echo "<TITLE>苏家屯大学</TITLE>"
+
+echo "</HEAD><BODY>"
+
+sh /etc/dialtool 0 &
+echo " <h2>关闭！</h2><br>"
+echo " <br>"
+#echo "请不要关闭，等待联网检测..."
+
+#sleep 2
+#sh /www/xlxy &
+echo "结束"
+# redialnum=2
+
+# while [ "$redialnum" -ge 0 ]
+# do
+
+# if /bin/ping -c 1 www.qq.com 1>/dev/null 2>&1; then
+	# #logger "ONLINE."
+	# echo "<h2>2、联网状态：<font color="green">联网成功！可以关闭该页面</font></h2><br>"
+	# break
+# else
+	# #logger "redial."
+	# echo "请不要关闭，联网检测中...$redialnum<br>"
+	# redialnum=$(($redialnum-1))
+# fi
+# #echo $redialnum
+# if [ $redialnum -eq "-1" ]; then
+	# echo "<h2>联网状态：<font color="red">联网不成功！</font></h2>"
+	# echo "<h2>请重新开启，再次认证！"
+# fi
+
+# done
+
+
+echo " <br>"
+echo "</BODY></HTML>"
+
+

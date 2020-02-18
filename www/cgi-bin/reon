@@ -1,0 +1,11 @@
+#!/bin/sh
+echo Content-type: text/html
+echo "<HTML><HEAD>"
+echo "<meta http-equiv="Content-Type" content=\"text/html\;charset=utf-8\"/>"
+echo "<meta name="viewport" content="width=device-width, initial-scale=1"/>"
+echo "<TITLE>苏家屯大学</TITLE>"
+echo "</HEAD><BODY>"
+echo " <h2>已重置</h2>"
+sleep 1
+echo "</BODY></HTML>"
+sh /etc/re &
