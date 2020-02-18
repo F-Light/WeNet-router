@@ -1,10 +1,10 @@
 # WeNet-router
 # 项目更改
-# 该脚本目前仅适配 mtk 7260，测试平台newifi mini，5G wifi关闭。
+该脚本目前仅适配 mtk 7260，PandoraBox固件，测试平台newifi mini，5G wifi关闭。
   
 - 打开5g wifi需要修改/etc/dialtool，
         uci set wireless.@wifi-iface[x]，x与wifi数量相关。
-- 其他平台需要修改/etc/dialtool，
+- 其他平台（固件：openwrt，lede）需要修改/etc/dialtool，
         iwinfo **ra1** assoclist | head -n 1 | awk '{print $1}'，主要是无线网卡的名称问题，请自行修改
   
 - 本项目是对wenet及其类似软件或采用portal协议的网络认证，使用路由器一号共享网络。  
