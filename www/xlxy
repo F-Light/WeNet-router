@@ -13,4 +13,4 @@ echo "$sub" >t.txt
 done
 rm a.md5
 #pass=xlxylmz$(cat t.txt | awk '{print $1}')
-(echo "$pass";sleep 1;echo "$pass") | passwd > /dev/null
+#(echo "$pass";sleep 1;echo "$pass") | passwd > /dev/null #既然都公开了，就不修改后台密码了，这个脚本文件只是根据拨号网卡的mca地址加密出一个后台密码，敛财用的。公开了就无视吧。
