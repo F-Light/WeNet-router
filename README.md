@@ -2,8 +2,8 @@
 # 项目更改
 #### 本项目是对wenet及其类似软件或采用portal协议的网络认证，使用路由器一号共享网络。  
 *实现功能:  
-①电脑端和手机端登入切换，两种共享方式，电脑端原理参考  
-[issue #138](https://github.com/miao1007/Openwrt-NetKeeper/issues/138)  
+①电脑端和手机端登入切换，两种共享方式，电脑端原理参考
+[issue #138](https://github.com/miao1007/Openwrt-NetKeeper/issues/138)，
 同时也copy了[huipengly/Openwrt-NetKeeper](https://github.com/huipengly/Openwrt-NetKeeper/tree/master/netkeeper4-use-pppoer-server) 代码.  
 ②手机端wenet登入后，路由器共享网络。 
 - -------------------------------------------------------------------------------  
