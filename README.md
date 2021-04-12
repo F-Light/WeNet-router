@@ -8,7 +8,7 @@
 ②手机端wenet登入后，路由器共享网络。 
 - -------------------------------------------------------------------------------  
 
-该脚本目前仅适配 mtk 7260，PandoraBox固件，测试平台newifi mini，5G wifi关闭。  
+该脚本目前仅在 mtk 7260，PandoraBox固件测试通过，其余平台请自行研究，测试平台①newifi mini，5G wifi关闭。测试平台②斐讯k2，测试平台③某云工模mtk7260  
 - 打开5g wifi需要修改/etc/dialtool，
         uci set wireless.@wifi-iface[x]，x与wifi数量相关。
 - 其他平台（固件：openwrt，lede）需要修改/etc/dialtool，
