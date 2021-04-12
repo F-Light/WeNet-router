@@ -1,4 +1,5 @@
 #!/bin/sh
+#该脚本是主要脚本，弄明白这个脚本，就明白原理了。
 sleep 1
 lock="/www/origin.lock"
 if [ -f "$lock" ]; then
@@ -89,23 +90,6 @@ if [ $mark -eq 1 ]; then
 	# sleep 3
 
 	####
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 ####mac绑定wifi
 	
@@ -138,12 +122,6 @@ if [ $mark -eq 1 ]; then
 			#uci set wireless.@wifi-iface[1].ssid="${wifi_name_old}_on_$(head /dev/urandom |tr -cd a-f0-9|cut -c 1-6)"
 			uci set wireless.@wifi-iface[1].disabled="0"
 			#;;
-	
-	
-	
-	
-	
-	
 	
 		uci commit
 	######################
@@ -271,7 +249,7 @@ else
 	echo "dialtoll stop."
 	#uci set wireless.@wifi-iface[1].disabled="1"
 	
-	#####优化步骤，防止寝室多人连接时，非拨号手机mac夺权
+	#####优化步骤，防止寝室多人连接时，非拨号手机mac夺权（谢谢前任女朋友的问题反馈）
 	
 	
 	while ( [ ${#cellphone_mac_wlan0} -lt 6 ] && [ ${#cellphone_mac_wlan1} -lt 6 ] )
