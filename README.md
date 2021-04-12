@@ -6,9 +6,10 @@
 [issue #138](https://github.com/miao1007/Openwrt-NetKeeper/issues/138)  
 同时也copy了[huipengly/Openwrt-NetKeeper]
 (https://github.com/huipengly/Openwrt-NetKeeper/tree/master/netkeeper4-use-pppoer-server)代码.  
-②手机端wenet登入后，路由器共享网络。  
-该脚本目前仅适配 mtk 7260，PandoraBox固件，测试平台newifi mini，5G wifi关闭。
-  
+②手机端wenet登入后，路由器共享网络。 
+- -------------------------------------------------------------------------------  
+
+该脚本目前仅适配 mtk 7260，PandoraBox固件，测试平台newifi mini，5G wifi关闭。  
 - 打开5g wifi需要修改/etc/dialtool，
         uci set wireless.@wifi-iface[x]，x与wifi数量相关。
 - 其他平台（固件：openwrt，lede）需要修改/etc/dialtool，
