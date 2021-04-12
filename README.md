@@ -1,9 +1,8 @@
 # WeNet-router
 # 项目更改
-- ####本项目是对wenet及其类似软件或采用portal协议的网络认证，使用路由器一号共享网络。  
-        #####实现功能:
+#### 本项目是对wenet及其类似软件或采用portal协议的网络认证，使用路由器一号共享网络。  
+        *实现功能:
         *电脑端和手机端登入切换，两种共享方式，电脑端原理参考[issue #138](https://github.com/miao1007/Openwrt-NetKeeper/issues/138), 同时也copy了[huipengly/Openwrt-NetKeeper](https://github.com/huipengly/Openwrt-NetKeeper/tree/master/netkeeper4-use-pppoer-server)代码.
-
         *手机端wenet登入后，路由器共享网络。
 该脚本目前仅适配 mtk 7260，PandoraBox固件，测试平台newifi mini，5G wifi关闭。
   
