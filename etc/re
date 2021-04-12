@@ -1,4 +1,5 @@
 #!/bin/sh
+#本脚本是未完善的还原脚本，其用途是处理已出售的路由器中因用户操作不当引起的一些错误的恢复。一般不会影响固件。
 cp /etc/config/firewall.origin /etc/config/firewall
 cp /etc/config/network.origin /etc/config/network
 uci commit
